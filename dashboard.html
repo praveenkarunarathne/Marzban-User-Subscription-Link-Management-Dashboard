@@ -1,0 +1,647 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Management Dashboard</title>
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --card-bg: rgba(30, 41, 59, 0.7);
+            --primary: #3b82f6;
+            --primary-hover: #2563eb;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --border: rgba(148, 163, 184, 0.1);
+            --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+            --danger: #ef4444;
+            --success: #22c55e;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            background-image:
+                radial-gradient(at 0% 0%, hsla(253, 16%, 7%, 1) 0, transparent 50%),
+                radial-gradient(at 50% 0%, hsla(225, 39%, 30%, 1) 0, transparent 50%),
+                radial-gradient(at 100% 0%, hsla(339, 49%, 30%, 1) 0, transparent 50%);
+        }
+
+        /* Layout */
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 2rem;
+            width: 100%;
+        }
+
+        header {
+            margin-bottom: 3rem;
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            background: linear-gradient(to right, #60a5fa, #c084fc);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 1rem;
+        }
+
+        /* Navigation */
+        .nav-tabs {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            background: var(--card-bg);
+            padding: 0.5rem;
+            border-radius: 1rem;
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--border);
+            width: fit-content;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .nav-btn {
+            background: transparent;
+            border: none;
+            color: var(--text-muted);
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.75rem;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .nav-btn.active {
+            background: var(--primary);
+            color: white;
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+        }
+
+        .nav-btn:hover:not(.active) {
+            color: var(--text-main);
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        /* Sections */
+        .section {
+            display: none;
+            animation: fadeIn 0.4s ease;
+        }
+
+        .section.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Cards & Forms */
+        .card {
+            background: var(--card-bg);
+            backdrop-filter: blur(12px);
+            border: 1px solid var(--border);
+            border-radius: 1.5rem;
+            padding: 2.5rem;
+            box-shadow: var(--glass-shadow);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        input[type="text"],
+        input[type="url"] {
+            width: 100%;
+            padding: 0.875rem 1rem;
+            background: rgba(15, 23, 42, 0.6);
+            border: 1px solid var(--border);
+            border-radius: 0.75rem;
+            color: white;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+
+        .checkbox-group {
+            display: flex;
+            gap: 1.5rem;
+            margin-top: 0.5rem;
+        }
+
+        .checkbox-label {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            cursor: pointer;
+            color: var(--text-main);
+            user-select: none;
+        }
+
+        .checkbox-label input {
+            width: 1.2rem;
+            height: 1.2rem;
+            accent-color: var(--primary);
+        }
+
+        .btn {
+            width: 100%;
+            padding: 1rem;
+            border: none;
+            border-radius: 0.75rem;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-hover);
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4);
+            transform: translateY(-1px);
+        }
+
+        .btn-danger {
+            background: rgba(239, 68, 68, 0.1);
+            color: var(--danger);
+            border: 1px solid rgba(239, 68, 68, 0.2);
+        }
+
+        .btn-danger:hover {
+            background: rgba(239, 68, 68, 0.2);
+        }
+
+        /* Search Results */
+        .search-result {
+            margin-top: 2rem;
+        }
+
+        .user-card {
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 1rem;
+            padding: 1.5rem;
+            border: 1px solid var(--border);
+        }
+
+        .user-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .username {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text-main);
+            cursor: pointer;
+            text-decoration: underline;
+            text-decoration-color: rgba(255, 255, 255, 0.2);
+            text-underline-offset: 4px;
+            transition: text-decoration-color 0.3s;
+        }
+
+        .username:hover {
+            text-decoration-color: var(--primary);
+            color: var(--primary);
+        }
+
+        .service-links {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .link-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            background: rgba(0, 0, 0, 0.2);
+            padding: 0.75rem 1rem;
+            border-radius: 0.5rem;
+        }
+
+        .link-label {
+            min-width: 60px;
+            font-weight: 600;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            font-size: 0.8rem;
+        }
+
+        .link-url {
+            flex: 1;
+            color: var(--primary);
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            font-family: monospace;
+        }
+
+        .copy-btn {
+            background: rgba(255, 255, 255, 0.1);
+            border: none;
+            color: white;
+            padding: 0.4rem 0.8rem;
+            border-radius: 0.4rem;
+            cursor: pointer;
+            font-size: 0.8rem;
+            transition: background 0.2s;
+        }
+
+        .copy-btn:hover {
+            background: var(--primary);
+        }
+
+        /* Modal */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(5px);
+            z-index: 100;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        .modal {
+            background: #1e293b;
+            width: 90%;
+            max-width: 500px;
+            border-radius: 1.5rem;
+            padding: 2rem;
+            border: 1px solid var(--border);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+            animation: scaleIn 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        @keyframes scaleIn {
+            from {
+                transform: scale(0.9);
+                opacity: 0;
+            }
+
+            to {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .modal-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        .close-modal {
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        .modal-actions {
+            display: flex;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        /* Toast */
+        .toast {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            padding: 1rem 2rem;
+            border-radius: 0.75rem;
+            color: white;
+            transform: translateY(100px);
+            opacity: 0;
+            transition: all 0.3s;
+            z-index: 200;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .toast.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <header>
+            <h1>User Dashboard</h1>
+            <div class="nav-tabs">
+                <button class="nav-btn active" onclick="switchTab('create')">Create User</button>
+                <button class="nav-btn" onclick="switchTab('search')">Search User</button>
+            </div>
+        </header>
+
+        <!-- Search Section -->
+        <div id="search-section" class="section">
+            <div class="card">
+                <div class="form-group">
+                    <label>Search by Username</label>
+                    <div style="display: flex; gap: 1rem;">
+                        <input type="text" id="search-input" placeholder="Enter username...">
+                        <button class="btn btn-primary" style="width: auto; padding: 0 2rem;"
+                            onclick="searchUser()">Search</button>
+                    </div>
+                </div>
+
+                <div id="search-results" class="search-result"></div>
+            </div>
+        </div>
+
+        <!-- Create Section -->
+        <div id="create-section" class="section active">
+            <div class="card">
+                <div class="form-group">
+                    <label>Username</label>
+                    <input type="text" id="create-username" placeholder="e.g. john_doe">
+                </div>
+                <div class="form-group">
+                    <label>Subscription Link</label>
+                    <input type="url" id="create-link" placeholder="https://example.com/sub/...">
+                </div>
+                <div class="form-group">
+                    <label>Services</label>
+                    <div class="checkbox-group">
+                        <label class="checkbox-label">
+                            <input type="checkbox" value="drive" class="service-check"> Drive
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" value="docs" class="service-check"> Docs
+                        </label>
+                    </div>
+                </div>
+                <button class="btn btn-primary" onclick="createUser()">Create User</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit Modal -->
+    <div class="modal-overlay" id="edit-modal">
+        <div class="modal">
+            <div class="modal-header">
+                <h2 class="modal-title">Edit User</h2>
+                <button class="close-modal" onclick="closeModal()">&times;</button>
+            </div>
+            <div class="form-group">
+                <label>Username</label>
+                <input type="text" id="edit-username" disabled style="opacity: 0.5; cursor: not-allowed;">
+            </div>
+            <div class="form-group">
+                <label>Subscription Link</label>
+                <input type="url" id="edit-link" disabled style="opacity: 0.5; cursor: not-allowed;">
+            </div>
+            <div class="form-group">
+                <label>Services</label>
+                <div class="checkbox-group">
+                    <label class="checkbox-label">
+                        <input type="checkbox" value="drive" class="service-edit" id="edit-drive"> Drive
+                    </label>
+                    <label class="checkbox-label">
+                        <input type="checkbox" value="docs" class="service-edit" id="edit-docs"> Docs
+                    </label>
+                </div>
+            </div>
+            <div class="modal-actions">
+                <button class="btn btn-danger" onclick="deleteUser()">Delete User</button>
+                <button class="btn btn-primary" onclick="saveUserChanges()">Save Changes</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="toast" class="toast">Action Successful</div>
+
+    <script>
+        function switchTab(tab) {
+            document.querySelectorAll('.section').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.nav-btn').forEach(el => el.classList.remove('active'));
+
+            document.getElementById(`${tab}-section`).classList.add('active');
+            event.target.classList.add('active'); // Simple active state toggle
+
+            // Clear inputs when switching
+            if (tab === 'search') {
+                document.getElementById('search-results').innerHTML = '';
+                document.getElementById('search-input').value = '';
+            }
+        }
+
+        // Create User
+        function createUser() {
+            const username = document.getElementById('create-username').value.trim();
+            const link = document.getElementById('create-link').value.trim();
+            const services = Object.fromEntries(Array.from(document.querySelectorAll('.service-check:checked')).map(cb => [cb.value, ""]));
+
+            if (!username || !link) {
+                showToast('Please fill in all fields', 'error');
+                return;
+            }
+
+            google.script.run.withSuccessHandler(onSuccessCreateUser).createUser({ username, link, services });
+        }
+
+        function onSuccessCreateUser(result) {
+            if (result) {
+                showToast('Username already exists', 'error');
+            } else {
+                showToast('User created successfully');
+                document.getElementById('create-username').value = '';
+                document.getElementById('create-link').value = '';
+                document.querySelectorAll('.service-check').forEach(cb => cb.checked = false);
+            }
+        }
+
+        // Search User
+        function searchUser() {
+            const query = document.getElementById('search-input').value.trim();
+
+            if (!query) return;
+
+            google.script.run.withSuccessHandler(onSuccessSearchUser).getUser(query);
+        }
+
+        function onSuccessSearchUser(user) {
+            const resultsDiv = document.getElementById('search-results');
+            resultsDiv.innerHTML = '';
+
+            if (!user) {
+                resultsDiv.innerHTML = '<p style="text-align:center; color:var(--text-muted);">No user found.</p>';
+                return;
+            }
+
+            // Generate links based on services
+            const linksHtml = Object.entries(user.services).map(([service, fileId]) => {
+                if (service == "drive") {
+                    var serviceLink = "https://drive.google.com/uc?id=" + fileId + "&export=download";
+                    return `
+        <div class="link-item">
+            <span class="link-label">${service}</span>
+            <span class="link-url">${serviceLink}</span>
+            <button class="copy-btn" onclick="copyToClipboard('${serviceLink}')">Copy</button>
+        </div>
+    `;
+                }
+                if (service == "docs") {
+                    var serviceLink = "https://docs.google.com/document/d/" + fileId + "/export?format=txt";
+                    return `
+        <div class="link-item">
+            <span class="link-label">${service}</span>
+            <span class="link-url">${serviceLink}</span>
+            <button class="copy-btn" onclick="copyToClipboard('${serviceLink}')">Copy</button>
+        </div>
+    `;
+                }
+            }).join('');
+
+
+            const html = `
+                <div class="user-card">
+                    <div class="user-header">
+                        <div class="username" onclick="google.script.run.withSuccessHandler(onSuccessOpenEditModal).getUser('${user.username}');">${user.username}</div>
+                        <span style="color:var(--text-muted); font-size:0.9rem;">Click username to edit</span>
+                    </div>
+                    <div class="service-links">
+                        ${linksHtml || '<p style="color:var(--text-muted);">No active services</p>'}
+                    </div>
+                </div>
+            `;
+
+            resultsDiv.innerHTML = html;
+        }
+
+        // Edit User
+        let currentEditingUser = null;
+
+        function onSuccessOpenEditModal(user) {
+            if (!user) return;
+
+            currentEditingUser = user;
+
+            document.getElementById('edit-username').value = user.username;
+            document.getElementById('edit-link').value = user.link;
+
+            // Set checkboxes
+            document.getElementById('edit-docs').checked = "docs" in user.services;
+            document.getElementById('edit-drive').checked = "drive" in user.services;
+
+            document.getElementById('edit-modal').classList.add('active');
+        }
+
+        function closeModal() {
+            document.getElementById('edit-modal').classList.remove('active');
+            currentEditingUser = null;
+        }
+
+        function saveUserChanges() {
+            if (!currentEditingUser) return;
+            currentEditingUser.services = Object.fromEntries(Array.from(document.querySelectorAll('.service-edit:checked')).map(cb => [cb.value, ""]));
+
+            google.script.run.withSuccessHandler(onSuccessUpdateUser).updateUser(currentEditingUser);
+            closeModal();
+        }
+
+        function onSuccessUpdateUser() {
+            showToast('User updated successfully');
+            searchUser();
+        }
+
+        function deleteUser() {
+            if (!currentEditingUser) return;
+
+            if (confirm(`Are you sure you want to delete user ${currentEditingUser.username}?`)) {
+                google.script.run.deleteUser(currentEditingUser);
+
+                showToast('User deleted');
+                closeModal();
+                document.getElementById('search-results').innerHTML = '';
+                document.getElementById('search-input').value = '';
+            }
+        }
+
+        // Utilities
+        function copyToClipboard(text) {
+            navigator.clipboard.writeText(text).then(() => {
+                showToast('Link copied!');
+            });
+        }
+
+        function showToast(msg, type = 'success') {
+            const toast = document.getElementById('toast');
+            toast.textContent = msg;
+            toast.style.borderLeft = type === 'error' ? '4px solid var(--danger)' : '4px solid var(--success)';
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 3000);
+        }
+
+        // Close modal on outside click
+        document.getElementById('edit-modal').addEventListener('click', (e) => {
+            if (e.target.id === 'edit-modal') closeModal();
+        });
+    </script>
+</body>
+
+</html>
