@@ -108,9 +108,10 @@ bash <(curl -s https://raw.githubusercontent.com/praveenkarunarathne/Marzban-Use
 
 ## 📸 Screenshots
 
-*(Add screenshots of your Login Page and Dashboard here)*
-
-<!-- Example: ![Dashboard Screenshot](path/to/image.png) -->
+![Login Page](screenshots/login.png)
+![Create User](screenshots/create.png)
+![Search User](screenshots/search.png)
+![Edit User](screenshots/edit.png)
 
 ## 🤝 Contributing
 
@@ -131,5 +132,6 @@ Distributed under the GNU GPLv3 License. See `LICENSE` for more information.
 <div align="center">
     <b>Built with ❤️ for the Community</b>
 </div>
+
 
 
