@@ -1,13 +1,13 @@
 <div align="center">
 
-# Marzban User Management Dashboard
+# Marzban User Subscription Link Management Dashboard
 
-[![Google Apps Script](https://img.shields.io/badge/Google%20Apps%20Script-4285F4?style=for-the-badge&logo=google-drive&logoColor=white)](https://developers.google.com/apps-script)
+[![Google Apps Script](https://img.shields.io/badge/Google%20Apps%20Script-4285F4?style=for-the-badge&logo=googleappsscript&logoColor=white)](https://developers.google.com/apps-script)
 [![HTML5](https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=white)](https://developer.mozilla.org/en-US/docs/Web/Guide/HTML/HTML5)
 [![CSS3](https://img.shields.io/badge/CSS3-1572B6?style=for-the-badge&logo=css3&logoColor=white)](https://developer.mozilla.org/en-US/docs/Web/CSS)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=for-the-badge)](https://opensource.org/licenses/MIT)
+[![License: MIT](https://img.shields.io/badge/License-GPLv3-yellow.svg?style=for-the-badge&logo=gplv3&logoColor=white)](https://opensource.org/license/gpl-3-0)
 
-**A powerful, secure, and modern web dashboard for managing Marzban VPN users with seamless Google Drive integration.**
+**A powerful, secure, and modern web dashboard for managing Marzban VPN user subscription links with seamless Google Apps Script integration.**
 
 [Report Bug](https://github.com/yourusername/repo/issues) · [Request Feature](https://github.com/yourusername/repo/issues)
 
@@ -33,7 +33,7 @@
 
 ## 📖 About The Project
 
-The **Marzban User Management Dashboard** is a custom-built solution designed to bridge the gap between your Marzban VPN panel and user distribution. It provides a sleek, password-protected interface for administrators to create, manage, and distribute VPN subscriptions.
+The **Marzban User Subscription Link Management Dashboard** is a custom-built solution designed to bridge the gap between your Marzban VPN panel and user distribution. It provides a sleek, password-protected interface for administrators to create, manage, and distribute VPN subscriptions.
 
 By leveraging **Google Apps Script**, this project eliminates the need for a dedicated backend server for the dashboard, utilizing Google Drive as a secure database and file storage system.
 
@@ -124,10 +124,11 @@ Contributions are what make the open source community such an amazing place to l
 
 ## 📝 License
 
-Distributed under the MIT License. See `LICENSE` for more information.
+Distributed under the GNU GPLv3 License. See `LICENSE` for more information.
 
 ---
 
 <div align="center">
     <b>Built with ❤️ for the Community</b>
 </div>
+
