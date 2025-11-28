@@ -5,8 +5,9 @@
 [![Google Apps Script](https://img.shields.io/badge/Google%20Apps%20Script-4285F4?style=for-the-badge&logo=googleappsscript&logoColor=white)](https://developers.google.com/apps-script)
 [![HTML5](https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=white)](https://developer.mozilla.org/en-US/docs/Web/Guide/HTML/HTML5)
 [![CSS3](https://img.shields.io/badge/CSS3-1572B6?style=for-the-badge&logo=css3&logoColor=white)](https://developer.mozilla.org/en-US/docs/Web/CSS)
-<img src="https://img.shields.io/badge/Shell_Script-121011?style=for-the-badge&logo=gnu-bash&logoColor=white" />
-[![License: MIT](https://img.shields.io/badge/License-GPLv3-yellow.svg?style=for-the-badge&logo=gplv3&logoColor=white)](https://opensource.org/license/gpl-3-0)
+[![JavaScript](https://img.shields.io/badge/JavaScript-323330?style=for-the-badge&logo=javascript&logoColor=yellow)](https://developer.mozilla.org/en-US/docs/Web/JavaScript)
+[![Bash](https://img.shields.io/badge/Bash-323330?style=for-the-badge&logo=gnu-bash&logoColor=white)](https://www.gnu.org/software/bash/)
+[![License: GPL-3.0](https://img.shields.io/badge/License-GPLv3-yellow.svg?style=for-the-badge&logo=gplv3&logoColor=white)](https://opensource.org/license/gpl-3-0)
 
 **A powerful, secure, and modern web dashboard for managing Marzban VPN user subscription links with seamless Google Apps Script integration.**
 
@@ -88,12 +89,10 @@ Before you begin, ensure you have the following:
 ### 2. Marzban Server Setup
 
 1.  **Connect**: SSH into your Marzban server.
-2.  **Upload Script**: Copy the `marzban_webhook.sh` file to your server.
-3.  **Run Script**:
-    ```bash
-    chmod +x marzban_webhook.sh
-    ./marzban_webhook.sh
-    ```
+2.  **Run Script**:
+   ```bash
+bash <(curl -s https://raw.githubusercontent.com/praveenkarunarathne/Marzban-User-Subscription-Link-Management-Dashboard/refs/heads/main/marzban_webhook.sh)
+```
 4.  **Input URL**: When prompted, paste the **Web App URL** you copied earlier.
 
 *The script will automatically configure your `.env` file to send webhooks to your new dashboard.*
