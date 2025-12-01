@@ -1,4 +1,4 @@
-let host = "http://150.136.47.136:8001";
+let host = "Marzban Panel Host";
 let password = "123456";
 
 function doGet(e) {
@@ -163,3 +163,4 @@ function userCreated(item) {
         }]));
     }
 }
+
